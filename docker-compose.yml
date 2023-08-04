@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  backend:
+    platform: linux/amd64
+    environment:
+      DB_URL: postgresql://user:password@postgres:5432/articles
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+    
+    # Add any other configurations specific to your backend service here
+
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./frontend:/app/frontend
+  #   # Add any other configurations specific to your frontend service here
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: articles
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    # Add any other configurations specific to your PostgreSQL service here
+
+volumes:
+  postgres_data: # This volume is used to persist PostgreSQL data across container restarts

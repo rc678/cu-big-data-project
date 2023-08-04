@@ -1,0 +1,18 @@
+# Use Node.js LTS version as the base image
+FROM node:14 as development
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json (or yarn.lock) to the container
+# This allows Docker to cache the npm install step if the dependencies haven't changed
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of your frontend source code to the container
+COPY . .
+
+# Start the development server
+CMD ["npm", "run", "dev"]

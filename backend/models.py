@@ -1,10 +1,9 @@
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+import os
 
-# Replace with your PostgreSQL configuration
-DB_URL = "postgresql://:@localhost:5432"
+DB_URL = os.environ['DB_URL']
 
 # Create the database engine
 engine = create_engine(DB_URL)
