@@ -1,8 +1,23 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from models import User, SessionLocal
 from pydantic import BaseModel
 
 app = FastAPI()
+
+# TODO Change origin from all to specific urls
+origins = [
+'*'
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 class UserResponse(BaseModel):
     id: int
@@ -10,7 +25,7 @@ class UserResponse(BaseModel):
     email: str
 
 # Endpoint to fetch all users
-@app.get("/users/", response_model=None)
+@app.get("/users", response_model=None)
 def get_all_users(limit: int = 10):
     db = SessionLocal()
     try:
@@ -20,7 +35,7 @@ def get_all_users(limit: int = 10):
         db.close()
 
 # Endpoint to create a new user
-@app.post("/users/", response_model=UserResponse)
+@app.post("/users", response_model=UserResponse)
 def create_user(username: str, email: str):
     db = SessionLocal()
     try:
