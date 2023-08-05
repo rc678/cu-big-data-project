@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # RUN pip install psycopg2
-RUN pip install psycopg2-binary
+# RUN pip install psycopg2-binary
 
 # Install the FastAPI dependencies
 RUN pip install -r requirements.txt 
