@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+// import {process} from "dotenv";
 
 function App() {
   const [data, setData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = 'http://localhost:8000/users'; // Replace with your API endpoint URL
+      const url = `${import.meta.env.VITE_API_URL}/users`;
       const headers = {
         'Content-Type': 'application/json'
       };

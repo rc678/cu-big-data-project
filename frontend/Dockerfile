@@ -14,10 +14,6 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# ARG API_URL
-
-# ENV API_URL $API_URL
-
 # Copy the rest of your frontend source code to the container
 COPY . .
 

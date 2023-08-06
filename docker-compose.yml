@@ -14,14 +14,14 @@ services:
     
     # Add any other configurations specific to your backend service here
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./frontend:/app/frontend
-  #   # Add any other configurations specific to your frontend service here
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./frontend:/app/frontend
 
   postgres:
     image: postgres:latest
