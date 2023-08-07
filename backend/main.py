@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException
+import uvicorn
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from models import User #, SessionLocal
 from pydantic import BaseModel
@@ -23,14 +24,21 @@ class UserResponse(BaseModel):
     username: str
     email: str
 
-@app.get("/", response_model=None)
-def root(limit: int = 10):
-    return {"hello": "world"}
+@app.get("/")
+async def read_main():
+    return {"msg": "Hello World"}
 
 @app.get("/users", response_model=None)
 def get_all_users(limit: int = 10):
     return {"hello": "world"}
 
+@app.get("/input", response_model=None)
+def get_user_input(input: str, limit: int = 10):
+    return {"message": input}
+
+
+
+# TODO: Uncomment after setting up production db
 # Endpoint to fetch all users
 # @app.get("/users", response_model=None)
 # def get_all_users(limit: int = 10):
@@ -59,3 +67,7 @@ def get_all_users(limit: int = 10):
 #         return UserResponse(id=new_user.id, username=new_user.username, email=new_user.email)
 #     finally:
 #         db.close()
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)
