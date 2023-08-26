@@ -5,3 +5,4 @@ sqlAlchemy==2.0.19
 # psycopg2==2.8.6
 httpx==0.24.1
 pytest==7.4.0
+typing==3.7.4.3
