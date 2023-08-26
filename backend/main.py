@@ -34,13 +34,11 @@ def get_db():
     finally:
         db.close()
 
-# Endpoint to fetch all users
 @app.get("/users", response_model=List[UserResponse])
 def get_all_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     users = db.query(User).offset(skip).limit(limit).all()
     return users
 
-# Endpoint to create a new user
 @app.post("/users", response_model=UserResponse)
 def create_user(username: str, email: str, db: Session = Depends(get_db)):
     # Check if the user already exists
@@ -51,9 +49,18 @@ def create_user(username: str, email: str, db: Session = Depends(get_db)):
     new_user = User(username=username, email=email)
     db.add(new_user)
     db.commit()
-    db.refresh(new_user)  # Refresh the new_user object to get the updated ID after committing
+    db.refresh(new_user)
 
     return new_user
+
+@app.delete("/users/{user_id}", response_model=bool)
+def delete_user(user_id: str, db: Session = Depends(get_db)):
+    if db.query(User).filter(User.id == user_id).delete():
+        db.commit()
+        return True
+    else:
+        return False
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
